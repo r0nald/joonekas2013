@@ -8,6 +8,7 @@
 
 void test_Comm()
 {
+    int i;
     InputMsg msg;
     msg.cmdType = 1;
     msg.leftPwm = 10.0; msg.rightPwm = -1337;
@@ -24,10 +25,17 @@ void test_Comm()
 
     printf("%s", msgBuf);
 
+    Comm_Init();
+
+    char lotsOfTrash[] = "lkjhdflkjaslfhsjfhslkdhfhsalkfhsdjfhlkshfhflkhsdflkhsadlkfhsalkjfhsalkdhflkjsahflkjshflkjlkjhlkjhsflkjdsfkjsfkjhsjfkashf";
+    /*
+     * First lets test if still works after overflow of trash.
+     */
+    Comm_Process(lotsOfTrash, strlen(lotsOfTrash));
+
     /*
      * Let's send just perfect message and see if it works.
      */
-    Comm_Init();
     Comm_Process(msgBuf, strlen(msgStr) + 2);
 
     InputMsg recvMsg;
@@ -42,6 +50,9 @@ void test_Comm()
         printf("Messages are equal!\n");
     else
         printf("!!! Messages are NOT equal!\n");
+
+    if(Comm_NewMsg(&recvMsg) == 1)
+        printf("!!! New message detected AGAIN!\n");
 
     /*
      * Repeating message. Still works?
@@ -61,6 +72,10 @@ void test_Comm()
         printf("Messages are equal!\n");
     else
         printf("!!! Messages are NOT equal!\n");
+
+    if(Comm_NewMsg(&recvMsg) == 1)
+        printf("!!! New message detected AGAIN!\n");
+
     /*
      * First sending trash, then correct message. Then trash again.
      */
@@ -81,6 +96,9 @@ void test_Comm()
         printf("Messages are equal!\n");
     else
         printf("!!! Messages are NOT equal!\n");
+
+    if(Comm_NewMsg(&recvMsg) == 1)
+        printf("!!! New message detected AGAIN!\n");
 
     /*
      * Sending message piece-by-piece. Last part with trash.
@@ -105,6 +123,67 @@ void test_Comm()
         printf("Messages are equal!\n");
     else
         printf("!!! Messages are NOT equal!\n");
+
+    if(Comm_NewMsg(&recvMsg) == 1)
+        printf("!!! New message detected AGAIN!\n");
+
+    /*
+     * Sending half of correct message, trash, then other half.
+     */
+    printf(" ---- TEST 5 ----\n");
+    Comm_Process(msgBuf, 5);
+    Comm_Process(trash, strlen(trash));
+    Comm_Process(msgBuf + 5, strlen(msgStr) + 2 - 5);
+
+    recvMsg.leftPwm = 0; recvMsg.rightPwm = 0;
+    if(Comm_NewMsg(&recvMsg) == 0)
+        printf("New message not detected!\n");
+    else
+        printf("!!! New message detected!\n");
+
+    /*
+     * Repeating message. Still works?
+     */
+
+    printf(" ---- TEST 6 ----\n");
+
+    Comm_Process(msgBuf, strlen(msgStr) + 2);
+
+    recvMsg.leftPwm = 0; recvMsg.rightPwm = 0;
+    if(Comm_NewMsg(&recvMsg) == 1)
+        printf("New message detected!\n");
+    else
+        printf("!!! New message NOT detected!\n");
+
+    if(memcmp(&msg, &recvMsg, sizeof(InputMsg)) == 0)
+        printf("Messages are equal!\n");
+    else
+        printf("!!! Messages are NOT equal!\n");
+
+    if(Comm_NewMsg(&recvMsg) == 1)
+        printf("!!! New message detected AGAIN!\n");
+    /*
+     * Send message char-by-char
+     */
+
+    printf(" ---- TEST 7 ----\n");
+
+    for(i = 0 ; i < strlen(msgStr) + 2 ; i++)
+        Comm_Process(msgBuf + i, 1);
+
+    recvMsg.leftPwm = 0; recvMsg.rightPwm = 0;
+    if(Comm_NewMsg(&recvMsg) == 1)
+        printf("New message detected!\n");
+    else
+        printf("!!! New message NOT detected!\n");
+
+    if(memcmp(&msg, &recvMsg, sizeof(InputMsg)) == 0)
+        printf("Messages are equal!\n");
+    else
+        printf("!!! Messages are NOT equal!\n");
+
+    if(Comm_NewMsg(&recvMsg) == 1)
+        printf("!!! New message detected AGAIN!\n");
 
     char* recvMsgStr = msgAsStr(recvMsg);
     printf("%s\n", recvMsgStr);

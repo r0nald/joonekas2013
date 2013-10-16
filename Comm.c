@@ -14,38 +14,50 @@ static uint8_t 	NewMsg;
 
 void Comm_Init(void)
 {
-	InBufIdx = 0;
+	InBufIdx = -1;
 	NewMsg = 0;
 }
 
 void Comm_Process(uint8_t* Buf, uint32_t Len)
 {
-	int startByteIdx;
-	int msgDataStart = 0;
-	int msgDataEnd;
+	int msgDataStart = 0;       // First byte of data in Buf. Byte after StartByte.
+	int msgDataEnd;             // Last byte of data + 1. EndByte index.
 	int i;
 	char hexByteBuf[3];
 
-	if(InBufIdx == 0)
-	{
-		// Looping until beginning of a valid message. In case there is garbage or partial old message in Buf.
-		for(startByteIdx = 0 ; startByteIdx < Len && Buf[startByteIdx] != StartByte ; startByteIdx++)
-        {
-            ;
-        }
-		if(startByteIdx == Len)
-			return;		// Buf did not contain beginning of a message
+	if(Len == 0)
+        return;
 
-		msgDataStart = startByteIdx + 1;
-	}
+	if(InBufIdx == -1)
+	{
+	    // We have not received StartByte. Looping until we find StartByte
+		for(msgDataStart = 0 ; msgDataStart < Len && Buf[msgDataStart] != StartByte ; msgDataStart++)
+            ;
+
+		if(msgDataStart == Len)
+            return;		// Buf did not contain beginning of a message
+
+        // First byte of valid message is Buf[msgDataStart]
+        msgDataStart++;
+        InBufIdx = 0;
+    }
+
+    if(msgDataStart == 1 && Len == 1)
+        return;         // Received only StartByte
 
 	for(msgDataEnd = msgDataStart + 1; msgDataEnd < Len && Buf[msgDataEnd] != EndByte; msgDataEnd++)
 		;
 
-	//!!! TODO: Overflow checks!
-	memcpy(InBuf + InBufIdx, Buf + msgDataStart, msgDataEnd - msgDataStart);
+    if(InBufIdx + (msgDataEnd - msgDataStart) > DataLen)
+    {
+        // If we have received more data than should be one packet, start again.
+        InBufIdx = -1;
+        return;
+    }
 
-	if(msgDataEnd < Len && Buf[msgDataEnd] == EndByte)
+    memcpy(InBuf + InBufIdx, Buf + msgDataStart, msgDataEnd - msgDataStart);
+
+	if(InBufIdx + (msgDataEnd-msgDataStart) == DataLen && Buf[msgDataEnd] == EndByte)
 	{
 		// We have a valid message in InBuf
 		// assert(msgDataEnd - msgDataStart == 2*sizeof(InputMsg));
@@ -56,11 +68,11 @@ void Comm_Process(uint8_t* Buf, uint32_t Len)
 			*((char*)&LastMsg + i/2) = strtoul(hexByteBuf, 0, 16);
 		}
 		NewMsg = 1;
-		InBufIdx = 0;
+		InBufIdx = -1;
 	}
 	else
 	{
-		InBufIdx = msgDataEnd - msgDataStart;
+		InBufIdx += msgDataEnd - msgDataStart;
 	}
 }
 
