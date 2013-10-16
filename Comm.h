@@ -2,12 +2,12 @@
 
 typedef struct
 {
-	uint8_t 	cmdType;
 	float 		leftPwm, rightPwm;
+	uint8_t 	cmdType;
 	uint8_t 	checksum;
-} InputMsg;
+} __attribute__((packed)) InputMsg;
 
-/* 
+/*
  * Call this to initialize internal states of Comm
  */
 void Comm_Init(void);
