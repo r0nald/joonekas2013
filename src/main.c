@@ -6,6 +6,7 @@
 
 #include "enc_input_capture.h"
 #include "pwm_out.h"
+#include "Comm.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -40,6 +41,7 @@ int main(void)
 	
 	ENC_TIM_Config();
 	PWM_TIM_Config();
+	Comm_Init();
 	
   STM32F4_Discovery_LEDInit(LED3);
   STM32F4_Discovery_LEDInit(LED4);

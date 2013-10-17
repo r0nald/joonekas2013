@@ -165,7 +165,7 @@
             <Capability>1</Capability>
             <DriverSelection>4103</DriverSelection>
           </Flash1>
-          <bUseTDR>0</bUseTDR>
+          <bUseTDR>1</bUseTDR>
           <Flash2>STLink\ST-LINKIII-KEIL_SWO.dll</Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
@@ -548,11 +548,6 @@
               <FilePath>.\pwm_out.c</FilePath>
             </File>
             <File>
-              <FileName>CommMsgs.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\CommMsgs.h</FilePath>
-            </File>
-            <File>
               <FileName>enc_input_capture.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\enc_input_capture.h</FilePath>
@@ -561,6 +556,16 @@
               <FileName>pwm_out.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\pwm_out.h</FilePath>
+            </File>
+            <File>
+              <FileName>Comm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Comm.c</FilePath>
+            </File>
+            <File>
+              <FileName>Comm.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Comm.h</FilePath>
             </File>
           </Files>
         </Group>

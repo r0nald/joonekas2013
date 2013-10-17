@@ -27,6 +27,8 @@
 #include "usbd_cdc_vcp.h"
 #include "stm32f4_discovery.h"
 
+#include "Comm.h"
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -241,8 +243,9 @@ uint16_t VCP_DataTx (uint8_t* Buf, uint32_t Len)
 static uint16_t VCP_DataRx (uint8_t* Buf, uint32_t Len)
 {
 	uint32_t i;
-
-
+	
+	Comm_Process(Buf, Len);
+	
 	/* ****************************************************************** */
 	/* To turn ON blue LED send 'a' or 'A'
 	 * To turn OFF blue LED send 's' or 'S'*/
