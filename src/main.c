@@ -33,7 +33,7 @@ uint16_t VCP_DataTx   (uint8_t* Buf, uint32_t Len);
 *******************************************************************************/
 int main(void)
 {
-	
+	InputMsg inMsg;
 	char sendText[5] = "test";
 	uint32_t j;
 	
@@ -72,10 +72,15 @@ int main(void)
     {
     	STM32F4_Discovery_LEDToggle(LED4);  /* GREEN LED TOGGLE */
     	i = 0;
-			
+
 			for(j = 0 ; j < 5 ; j++)
 			{
 				VCP_DataTx(0, sendText[j]);
+			}
+			
+			if(Comm_NewMsg(&inMsg))
+			{
+				PWM_Set(inMsg.leftPwm, inMsg.rightPwm);
 			}
     }
   }

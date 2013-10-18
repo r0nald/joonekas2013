@@ -2,6 +2,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 static const char 	StartByte 				= 0x02;
 static const char 	EndByte 					= '\n';
@@ -11,11 +12,13 @@ static int			InBufIdx;
 static char 		InBuf[2*2*sizeof(InputMsg)];
 static InputMsg	LastMsg;
 static uint8_t 	NewMsg;
+static uint8_t 	lock;																				// 1 if Comm_Process() is writing LastMsg
 
 void Comm_Init(void)
 {
 	InBufIdx = -1;
 	NewMsg = 0;
+	lock = 0;
 }
 
 void Comm_Process(uint8_t* Buf, uint32_t Len)
@@ -24,7 +27,7 @@ void Comm_Process(uint8_t* Buf, uint32_t Len)
 	int msgDataEnd;             // Last byte of data + 1. EndByte index.
 	int i;
 	char hexByteBuf[3];
-
+	
 	if(Len == 0)
         return;
 
@@ -59,6 +62,7 @@ void Comm_Process(uint8_t* Buf, uint32_t Len)
 
 	if(InBufIdx + (msgDataEnd-msgDataStart) == DataLen && Buf[msgDataEnd] == EndByte)
 	{
+		lock = 1;
 		// We have a valid message in InBuf
 		// assert(msgDataEnd - msgDataStart == 2*sizeof(InputMsg));
 		hexByteBuf[2] = 0;
@@ -69,6 +73,7 @@ void Comm_Process(uint8_t* Buf, uint32_t Len)
 		}
 		NewMsg = 1;
 		InBufIdx = -1;
+		lock = 0;
 	}
 	else
 	{
@@ -78,9 +83,26 @@ void Comm_Process(uint8_t* Buf, uint32_t Len)
 
 uint8_t Comm_NewMsg(InputMsg* out_msg)
 {
-	uint8_t hadNewMsg = NewMsg;
+	uint8_t hadNewMsg;
+	
+	if(lock)
+		return 0;
+	
+	hadNewMsg = NewMsg;
 	NewMsg = 0;
-
 	*out_msg = LastMsg;
+	
 	return hadNewMsg;
+}
+
+void 		Comm_OutMsgToStr(const OutputMsg* msg, char* out_str, uint16_t* out_len)
+{
+	int i;
+	out_str[0] = StartByte;
+	for(i = 0 ; i < sizeof(OutputMsg) ; i++)
+	{
+		sprintf(out_str + 1 + 2*i, "%2x", (unsigned int)((char*)msg + i));
+	}
+	out_str[sizeof(OutputMsg)+1] = EndByte;
+	*out_len = sizeof(OutputMsg)+2;
 }

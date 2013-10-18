@@ -2,6 +2,12 @@
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_tim.h"
 
+void PWM_Set(float left, float right)
+{
+	TIM_SetCompare3(TIM3, left/665);
+	TIM_SetCompare2(TIM3, left/665);
+}
+
 /*
  *	Taken from main.c of TIM_PWMOutput example project
  */
