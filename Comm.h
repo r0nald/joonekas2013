@@ -30,6 +30,6 @@ uint8_t Comm_NewMsg(InputMsg* out_msg);
 
 /*
  * Returns data with StartByte, hex string of msg data and EndByte
- * Assumes enough data(2*sizeof(OutputMsg) + 2) has been allocated. 
+ * Assumes enough data(2*sizeof(OutputMsg) + 2) has been allocated.
  */
 void 		Comm_OutMsgToStr(const OutputMsg* msg, char* out_str, uint16_t* out_len);
