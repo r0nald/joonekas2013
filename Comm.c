@@ -66,7 +66,7 @@ void Comm_Process(uint8_t* Buf, uint32_t Len)
 		// We have a valid message in InBuf
 		// assert(msgDataEnd - msgDataStart == 2*sizeof(InputMsg));
 		hexByteBuf[2] = 0;
-		for(i = 0 ; i < 2*DataLen ; i += 2)
+		for(i = 0 ; i < DataLen ; i += 2)
 		{
 			memcpy(hexByteBuf, InBuf + i, 2);
 			*((char*)&LastMsg + i/2) = strtoul(hexByteBuf, 0, 16);
