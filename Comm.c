@@ -1,4 +1,5 @@
 #include "Comm.h"
+#include "usbd_cdc_vcp.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -12,13 +13,11 @@ static int			InBufIdx;
 static char 		InBuf[2*2*sizeof(InputMsg)];
 static InputMsg	LastMsg;
 static uint8_t 	NewMsg;
-static uint8_t 	lock;																				// 1 if Comm_Process() is writing LastMsg
 
 void Comm_Init(void)
 {
 	InBufIdx = -1;
 	NewMsg = 0;
-	lock = 0;
 }
 
 void Comm_Process(uint8_t* Buf, uint32_t Len)
@@ -62,7 +61,6 @@ void Comm_Process(uint8_t* Buf, uint32_t Len)
 
 	if(InBufIdx + (msgDataEnd-msgDataStart) == DataLen && Buf[msgDataEnd] == EndByte)
 	{
-		lock = 1;
 		// We have a valid message in InBuf
 		// assert(msgDataEnd - msgDataStart == 2*sizeof(InputMsg));
 		hexByteBuf[2] = 0;
@@ -73,7 +71,6 @@ void Comm_Process(uint8_t* Buf, uint32_t Len)
 		}
 		NewMsg = 1;
 		InBufIdx = -1;
-		lock = 0;
 	}
 	else
 	{
@@ -93,6 +90,15 @@ uint8_t Comm_NewMsg(void)
 InputMsg Comm_LastMsg(void)
 {
 	return LastMsg;
+}
+
+void 		Comm_SendOutMsg(const OutputMsg* msg)
+{
+	char 			outBuf[sizeof(OutputMsg)+3];
+	uint16_t 	len;
+	
+	Comm_OutMsgToStr(msg, outBuf, &len);
+	VCP_DataTx((uint8_t*)outBuf, len);
 }
 
 void 		Comm_OutMsgToStr(const OutputMsg* msg, char* out_str, uint16_t* out_len)

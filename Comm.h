@@ -2,7 +2,8 @@
 
 /*
  * __packed packs the struct for Keil compiler. 
- * Not supported by gcc so for testing compile with -D__packed=/**/
+ * Not supported by gcc so for testing compile with -D__packed=C comments
+ */
 typedef __packed struct
 {
 	float 		leftPwm, rightPwm;
@@ -12,6 +13,7 @@ typedef __packed struct
 
 typedef struct
 {
+	uint32_t time;
 	uint16_t lineSensors;
 } __attribute__((packed)) OutputMsg;
 
@@ -40,3 +42,8 @@ InputMsg Comm_LastMsg(void);
  * Assumes enough data(2*sizeof(OutputMsg) + 2) has been allocated.
  */
 void 		Comm_OutMsgToStr(const OutputMsg* msg, char* out_str, uint16_t* out_len);
+
+/*
+ * Creates packet string with Comm_OutMsgToStr and transmits with VCP_DatTx
+ */
+void 		Comm_SendOutMsg(const OutputMsg* msg);
