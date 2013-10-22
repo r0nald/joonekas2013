@@ -2,10 +2,15 @@
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_tim.h"
 
+#include <stdlib.h>
+#include <math.h>
+
+static uint32_t CounterPeriod = 1000;
+
 void PWM_Set(float left, float right)
 {
-	TIM_SetCompare3(TIM3, left/665);
-	TIM_SetCompare2(TIM3, left/665);
+	TIM_SetCompare3(TIM3, CounterPeriod * fmaxf(0.0, fminf(1.0, left)));
+	TIM_SetCompare2(TIM3, CounterPeriod * fmaxf(0.0, fminf(1.0, right)));
 }
 
 /*
@@ -40,7 +45,7 @@ void PWM_TIM_Config(void)
   PrescalerValue = (uint16_t) ((SystemCoreClock /2) / 21000000) - 1;
 
   /* Time base configuration */
-  TIM_TimeBaseStructure.TIM_Period 				= 665;
+  TIM_TimeBaseStructure.TIM_Period 				= CounterPeriod;
   TIM_TimeBaseStructure.TIM_Prescaler 		= PrescalerValue;
   TIM_TimeBaseStructure.TIM_ClockDivision = 0;
   TIM_TimeBaseStructure.TIM_CounterMode 	= TIM_CounterMode_Up;

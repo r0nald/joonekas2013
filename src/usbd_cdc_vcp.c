@@ -123,7 +123,6 @@ static uint16_t VCP_Init(void)
   */
 static uint16_t VCP_DeInit(void)
 {
-
   return USBD_OK;
 }
 
@@ -204,25 +203,20 @@ static uint16_t VCP_Ctrl (uint32_t Cmd, uint8_t* Buf, uint32_t Len)
   */
 uint16_t VCP_DataTx (uint8_t* Buf, uint32_t Len)
 {
-		/* ****************************************************************** */
-  	if (linecoding.datatype == 7)
-  	{
-  	    APP_Rx_Buffer[APP_Rx_ptr_in] = (uint8_t) Len & 0x7F;
-  	}
-  	else if (linecoding.datatype == 8)
+	uint32_t i=0;
+	while(i < Len)
 	{
-		APP_Rx_Buffer[APP_Rx_ptr_in] = (uint8_t) Len ;
+		APP_Rx_Buffer[APP_Rx_ptr_in] = *(Buf + i);
+		APP_Rx_ptr_in++;
+  		i++;
+		/* To avoid buffer overflow */
+		if(APP_Rx_ptr_in == APP_RX_DATA_SIZE)
+		{
+			APP_Rx_ptr_in = 0;
+		}  
 	}
-	/* ****************************************************************** */
-
-	APP_Rx_ptr_in++;
-  
-	/* To avoid buffer overflow */
-	if(APP_Rx_ptr_in == APP_RX_DATA_SIZE)
-	{
-		APP_Rx_ptr_in = 0;
-	}
-	return USBD_OK;
+	
+  return USBD_OK;
 }
 
 /**
@@ -240,27 +234,11 @@ uint16_t VCP_DataTx (uint8_t* Buf, uint32_t Len)
   * @param  Len: Number of data received (in bytes)
   * @retval Result of the opeartion: USBD_OK if all operations are OK else VCP_FAIL
   */
+
 static uint16_t VCP_DataRx (uint8_t* Buf, uint32_t Len)
 {
-	uint32_t i;
-	
-	Comm_Process(Buf, Len);
-	
-	/* ****************************************************************** */
-	/* To turn ON blue LED send 'a' or 'A'
-	 * To turn OFF blue LED send 's' or 'S'*/
-	for (i = 0; i < Len; i++)
-	{
-		if (*(Buf + i) == 'a' || *(Buf + i) == 'A' )
-		{
-			STM32F4_Discovery_LEDOn(LED6);
-		}
-		else if (*(Buf + i) == 's' || *(Buf + i) == 'S' )
-		{
-			STM32F4_Discovery_LEDOff(LED6);
-		}
-	}
-	return USBD_OK;
+	Comm_Process(Buf, Len);	
+  return USBD_OK;
 }
 
 /**

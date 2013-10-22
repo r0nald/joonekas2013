@@ -69,7 +69,7 @@ void Comm_Process(uint8_t* Buf, uint32_t Len)
 		for(i = 0 ; i < DataLen ; i += 2)
 		{
 			memcpy(hexByteBuf, InBuf + i, 2);
-			*((char*)&LastMsg + i/2) = strtoul(hexByteBuf, 0, 16);
+			*( ((char*)&LastMsg) + i/2) = strtoul(hexByteBuf, 0, 16);
 		}
 		NewMsg = 1;
 		InBufIdx = -1;
@@ -81,18 +81,18 @@ void Comm_Process(uint8_t* Buf, uint32_t Len)
 	}
 }
 
-uint8_t Comm_NewMsg(InputMsg* out_msg)
+uint8_t Comm_NewMsg(void)
 {
-	uint8_t hadNewMsg;
-	
-	if(lock)
-		return 0;
-	
-	hadNewMsg = NewMsg;
+	uint8_t hadNewMsg = NewMsg;
 	NewMsg = 0;
-	*out_msg = LastMsg;
-	
 	return hadNewMsg;
+}
+
+/*
+ */
+InputMsg Comm_LastMsg(void)
+{
+	return LastMsg;
 }
 
 void 		Comm_OutMsgToStr(const OutputMsg* msg, char* out_str, uint16_t* out_len)

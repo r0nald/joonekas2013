@@ -208,7 +208,7 @@
             <hadIRAM>1</hadIRAM>
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
-            <RvdsVP>2</RvdsVP>
+            <RvdsVP>1</RvdsVP>
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -348,8 +348,8 @@
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <VariousControls>
-              <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER, USE_STM32F4_DISCOVERY, USE_USB_OTG_FS,STM32F4XX</Define>
+              <MiscControls>--fpu=softvfp</MiscControls>
+              <Define>USE_STDPERIPH_DRIVER, USE_STM32F4_DISCOVERY, USE_USB_OTG_FS,STM32F4XX,__USE_C99_MATH</Define>
               <Undefine></Undefine>
               <IncludePath>.\inc;.\Libraries\CMSIS\Include;.\Libraries\Device\STM32F4xx\Include;.\Libraries\STM32F4xx_StdPeriph_Driver\inc;.\Libraries\STM32_USB_Device_Library\Class\cdc\inc;.\Libraries\STM32_USB_Device_Library\Core\inc;.\Libraries\STM32_USB_OTG_Driver\inc;.</IncludePath>
             </VariousControls>
@@ -522,6 +522,16 @@
               <FileType>1</FileType>
               <FilePath>.\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f4xx_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_dma.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -566,6 +576,11 @@
               <FileName>Comm.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Comm.h</FilePath>
+            </File>
+            <File>
+              <FileName>adc_conf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\adc_conf.c</FilePath>
             </File>
           </Files>
         </Group>

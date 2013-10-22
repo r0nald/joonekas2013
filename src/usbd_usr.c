@@ -68,9 +68,22 @@ USBD_Usr_cb_TypeDef USR_cb =
   USBD_USR_DeviceConfigured,
   USBD_USR_DeviceSuspended,
   USBD_USR_DeviceResumed,
-
+	USBD_USR_DeviceConnected,
+	USBD_USR_DeviceDisconnected
 };
 
+extern uint8_t usb_open;
+uint8_t usb_open = 0;
+
+void USBD_USR_DeviceConnected(void)
+{
+	usb_open = 1;
+}
+
+void USBD_USR_DeviceDisconnected(void)
+{
+	usb_open = 0;
+}
 /**
 * @}
 */
@@ -106,7 +119,8 @@ void USBD_USR_Init(void)
 {  
   /* RED LED INIT */
   STM32F4_Discovery_LEDInit(LED5); 
-  
+	
+	usb_open = 0;
 }
 
 /**
@@ -116,9 +130,6 @@ void USBD_USR_Init(void)
 */
 void USBD_USR_DeviceReset(uint8_t speed )
 {
-
-
-
 }
 
 
@@ -131,6 +142,7 @@ void USBD_USR_DeviceConfigured (void)
 {
 	/* RED LED ON - VCP Interface configured */
 	STM32F4_Discovery_LEDOn(LED5);
+	usb_open = 1;
 }
 
 /**
@@ -138,11 +150,14 @@ void USBD_USR_DeviceConfigured (void)
 * @param  None
 * @retval None
 */
+
 void USBD_USR_DeviceSuspended(void)
 {
 	/* RED LED OFF-USB Device in Suspend Mode. */
 	STM32F4_Discovery_LEDOff(LED5); 
 	/* Users can do their application actions here for the USB-Reset */
+	
+	usb_open = 0;
 }
 
 

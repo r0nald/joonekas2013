@@ -1,5 +1,8 @@
 #include <stdint.h>
 
+/*
+ * __packed packs the struct for Keil compiler. 
+ * Not supported by gcc so for testing compile with -D__packed=/**/
 typedef __packed struct
 {
 	float 		leftPwm, rightPwm;
@@ -24,9 +27,13 @@ void Comm_Process(uint8_t* Buf, uint32_t Len);
 
 /*
  * This command will return non-zero, if a new command has been received.
- * Returns non-zero only once. If out_msg argument is non-zero, will output last message
+ * Returns non-zero only once.
  */
-uint8_t Comm_NewMsg(InputMsg* out_msg);
+uint8_t Comm_NewMsg(void);
+
+/*
+ */
+InputMsg Comm_LastMsg(void);
 
 /*
  * Returns data with StartByte, hex string of msg data and EndByte

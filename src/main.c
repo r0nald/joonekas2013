@@ -31,6 +31,9 @@ uint16_t VCP_DataTx   (uint8_t* Buf, uint32_t Len);
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
+
+extern uint8_t usb_open;
+
 int main(void)
 {
 	InputMsg inMsg;
@@ -73,14 +76,17 @@ int main(void)
     	STM32F4_Discovery_LEDToggle(LED4);  /* GREEN LED TOGGLE */
     	i = 0;
 
-			for(j = 0 ; j < 5 ; j++)
+			if(usb_open)
 			{
-				VCP_DataTx(0, sendText[j]);
+				VCP_DataTx(sendText, 4);
 			}
 			
-			if(Comm_NewMsg(&inMsg))
+			if(Comm_NewMsg())
 			{
+				inMsg = Comm_LastMsg();
 				PWM_Set(inMsg.leftPwm, inMsg.rightPwm);
+				//PWM_Set(0.0, 0.0);
+				;
 			}
     }
   }
