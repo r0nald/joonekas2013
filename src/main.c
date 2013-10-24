@@ -46,7 +46,7 @@ int main(void)
 	Comm_Init();
 	
 	/* 1ms period SysTick interrupt */
-	if (SysTick_Config(SystemCoreClock / 1000))
+	if (SysTick_Config(SystemCoreClock / 100))
   { 
     /* Capture error */ 
     while (1);
@@ -82,16 +82,12 @@ int main(void)
     	STM32F4_Discovery_LEDToggle(LED4);  /* GREEN LED TOGGLE */
     	i = 0;
 
+			/*
 			if(usb_open)
 			{
 				VCP_DataTx((uint8_t*)sendText, 4);
 			}
-			
-			if(Comm_NewMsg())
-			{
-				inMsg = Comm_LastMsg();
-				PWM_Set(inMsg.leftPwm, inMsg.rightPwm);
-			}
+			*/
     }
   }
 }

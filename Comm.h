@@ -2,7 +2,7 @@
 
 /*
  * __packed packs the struct for Keil compiler. 
- * Not supported by gcc so for testing compile with -D__packed=C comments
+ * Not supported by gcc so for testing compile with -D__packed=/C comments/
  */
 typedef __packed struct
 {
@@ -11,10 +11,11 @@ typedef __packed struct
 	uint8_t 	checksum;
 } __attribute__((packed)) InputMsg;
 
-typedef struct
+typedef __packed struct
 {
-	uint32_t time;
-	uint16_t lineSensors;
+	uint32_t 	time;
+	float			fval; 	
+	uint16_t 	lineSensors;
 } __attribute__((packed)) OutputMsg;
 
 /*

@@ -94,7 +94,7 @@ InputMsg Comm_LastMsg(void)
 
 void 		Comm_SendOutMsg(const OutputMsg* msg)
 {
-	char 			outBuf[sizeof(OutputMsg)+3];
+	char 			outBuf[2*sizeof(OutputMsg)+3];
 	uint16_t 	len;
 	
 	Comm_OutMsgToStr(msg, outBuf, &len);
@@ -107,8 +107,8 @@ void 		Comm_OutMsgToStr(const OutputMsg* msg, char* out_str, uint16_t* out_len)
 	out_str[0] = StartByte;
 	for(i = 0 ; i < sizeof(OutputMsg) ; i++)
 	{
-		sprintf(out_str + 1 + 2*i, "%2x", (unsigned int)((char*)msg + i));
+		sprintf(out_str + 1 + 2*i, "%02x", (unsigned int) *( ((char*)msg) + i));
 	}
-	out_str[sizeof(OutputMsg)+1] = EndByte;
-	*out_len = sizeof(OutputMsg)+2;
+	out_str[2*sizeof(OutputMsg)+1] = EndByte;
+	*out_len = 2*sizeof(OutputMsg)+2;
 }
