@@ -38,13 +38,19 @@ int main(void)
 {
 	InputMsg inMsg;
 	char sendText[5] = "test";
-	uint32_t j;
 	
   uint32_t i = 0;  
 	
 	ENC_TIM_Config();
 	PWM_TIM_Config();
 	Comm_Init();
+	
+	/* 1ms period SysTick interrupt */
+	if (SysTick_Config(SystemCoreClock / 100))
+  { 
+    /* Capture error */ 
+    while (1);
+  }
 	
   STM32F4_Discovery_LEDInit(LED3);
   STM32F4_Discovery_LEDInit(LED4);
@@ -76,18 +82,12 @@ int main(void)
     	STM32F4_Discovery_LEDToggle(LED4);  /* GREEN LED TOGGLE */
     	i = 0;
 
+			/*
 			if(usb_open)
 			{
-				VCP_DataTx(sendText, 4);
+				VCP_DataTx((uint8_t*)sendText, 4);
 			}
-			
-			if(Comm_NewMsg())
-			{
-				inMsg = Comm_LastMsg();
-				PWM_Set(inMsg.leftPwm, inMsg.rightPwm);
-				//PWM_Set(0.0, 0.0);
-				;
-			}
+			*/
     }
   }
 }

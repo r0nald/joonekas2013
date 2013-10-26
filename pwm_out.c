@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-static uint32_t CounterPeriod = 1000;
+static uint32_t CounterPeriod = 6500;
 
 void PWM_Set(float left, float right)
 {

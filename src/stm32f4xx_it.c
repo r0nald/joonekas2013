@@ -32,6 +32,8 @@
 #include "stm32f4_discovery.h"
 #include "usbd_cdc_core.h"
 
+#include "joonekas.h"
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -155,6 +157,7 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
+	Joonekas_SysTick();
 }
 
 /**
