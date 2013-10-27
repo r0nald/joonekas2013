@@ -5,12 +5,60 @@
 #include <stdlib.h>
 #include <math.h>
 
-static uint32_t CounterPeriod = 6500;
+static uint32_t CounterPeriod = 1000;
 
+
+/*
+ *	
+ */
 void PWM_Set(float left, float right)
 {
 	TIM_SetCompare3(TIM3, CounterPeriod * fmaxf(0.0, fminf(1.0, left)));
 	TIM_SetCompare2(TIM3, CounterPeriod * fmaxf(0.0, fminf(1.0, right)));
+}
+
+
+/*
+ *	Enable or Disable Half bridge drivers
+ */
+void Driver_Enable(unsigned int LeftOn, unsigned int RightOn)
+{
+
+		if (LeftOn) {											// ON
+				GPIOB->BSRRL = GPIO_Pin_1;
+    }
+		else {														// OFF
+			  GPIOB->BSRRH = GPIO_Pin_1;
+		}
+		
+		if (RightOn) {										// ON
+				GPIOB->BSRRL = GPIO_Pin_4;
+    }
+		else {														// OFF
+			  GPIOB->BSRRH = GPIO_Pin_4;
+		}
+ 
+}
+
+
+/*
+ *	Half bridge driver Enable pins configuration
+ */
+void Driver_EN_Config(void)
+{
+	GPIO_InitTypeDef GPIO_InitStructure;
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+
+	
+  /* Configure driver enable GPIO pins */
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_4;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
+	
+ 
 }
 
 /*
@@ -69,6 +117,9 @@ void PWM_TIM_Config(void)
   TIM_OC3PreloadConfig(TIM3, TIM_OCPreload_Enable);
 
   TIM_ARRPreloadConfig(TIM3, ENABLE);
+	
+	TIM_SetCompare3(TIM3, 0);
+	TIM_SetCompare2(TIM3, 0);
 
   /* TIM3 enable counter */
   TIM_Cmd(TIM3, ENABLE);

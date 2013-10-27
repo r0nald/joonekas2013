@@ -36,13 +36,17 @@ extern uint8_t usb_open;
 
 int main(void)
 {
-	InputMsg inMsg;
-	char sendText[5] = "test";
+//	InputMsg inMsg;
+//	char sendText[5] = "test";
 	
   uint32_t i = 0;  
 	
 	ENC_TIM_Config();
 	PWM_TIM_Config();
+	
+	Driver_EN_Config();
+	Driver_Enable(1,1);
+	
 	Comm_Init();
 	
 	/* 1ms period SysTick interrupt */
@@ -73,7 +77,8 @@ int main(void)
   &USBD_CDC_cb,
   &USR_cb);
 
-
+// PWM out test
+  //PWM_Set(0.3, 0.3);
 
   while (1)
   {
