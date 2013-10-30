@@ -31,5 +31,5 @@
 		
 	void GPIO_Config(void);		
   void PWM_TIM_Config(void);
-	
+	void USART6_Config(void);
 	

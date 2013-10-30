@@ -18,7 +18,7 @@
   TIM_TimeBaseInitTypeDef  	TIM_TimeBaseStructure;
 	TIM_OCInitTypeDef  				TIM_OCInitStructure;
 	NVIC_InitTypeDef          NVIC_InitStructure;
-
+  USART_InitTypeDef         USART_InitStructure;
  
 
   
@@ -58,6 +58,7 @@ void HW_Config(void)
 	  PWM_TIM_Config();
 	  //ENC_TIM_Config();
 	  
+		USART6_Config();
 	  
 	  // LED TEST
 	  GPIOA->BSRRL = GPIO_Pin_8; // 
@@ -158,6 +159,7 @@ void GPIO_Config(void) {
 	// BT_RX, BT_TX
   GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_6 | GPIO_Pin_7;
   GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AF;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_Init(GPIOC, &GPIO_InitStructure); 
 	
   /* Connect USART pins to AF */  
@@ -210,6 +212,31 @@ void PWM_TIM_Config(void)
   TIM_Cmd(TIM3, ENABLE);
 }
 
+
+
+
+/**
+  * @brief  Configure USART 6
+  * @param  None
+  * @retval None
+  */
+void USART6_Config(void)
+{
+ 
+	/* Enable UART clock */
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART6, ENABLE);
+	
+  USART_InitStructure.USART_BaudRate = 9600;
+  USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+  USART_InitStructure.USART_StopBits = USART_StopBits_2;
+  USART_InitStructure.USART_Parity = USART_Parity_No;
+  USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+  USART_Init(USART6, &USART_InitStructure);
+    
+  /* Enable USART */
+  USART_Cmd(USART6, ENABLE);
+}
 
 
 /*

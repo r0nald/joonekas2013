@@ -42,7 +42,7 @@ LINE_CODING linecoding =
   };
 
 
-USART_InitTypeDef USART_InitStructure;
+//USART_InitTypeDef USART_InitStructure;
 
 /* These are external variables imported from CDC core to be used for IN 
    transfer management. */
@@ -91,15 +91,15 @@ static uint16_t VCP_Init(void)
         - Hardware flow control disabled
         - Receive and transmit enabled
   */
-  USART_InitStructure.USART_BaudRate = 115200;
-  USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-  USART_InitStructure.USART_StopBits = USART_StopBits_1;
-  USART_InitStructure.USART_Parity = USART_Parity_Odd;
-  USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+ // USART_InitStructure.USART_BaudRate = 115200;
+ // USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+ // USART_InitStructure.USART_StopBits = USART_StopBits_1;
+ // USART_InitStructure.USART_Parity = USART_Parity_Odd;
+ // USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+ // USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
 
   /* Configure and enable the USART */
-  USART_Init(DISCOVERY_COM, &USART_InitStructure);
+ // USART_Init(DISCOVERY_COM, &USART_InitStructure);
 
   /* Enable the USART Receive interrupt */
   USART_ITConfig(DISCOVERY_COM, USART_IT_RXNE, ENABLE);
@@ -260,15 +260,15 @@ static uint16_t VCP_COMConfig(uint8_t Conf)
     - Hardware flow control disabled
     - Receive and transmit enabled
     */
-    USART_InitStructure.USART_BaudRate = 115200;
-    USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-    USART_InitStructure.USART_StopBits = USART_StopBits_1;
-    USART_InitStructure.USART_Parity = USART_Parity_Odd;
-    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-    USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+   // USART_InitStructure.USART_BaudRate = 115200;
+   // USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+    //USART_InitStructure.USART_StopBits = USART_StopBits_1;
+   // USART_InitStructure.USART_Parity = USART_Parity_Odd;
+   // USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+   // USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
     
     /* Configure and enable the USART */
-    USART_Init(DISCOVERY_COM, &USART_InitStructure);
+   // USART_Init(DISCOVERY_COM, &USART_InitStructure);
     
     /* Enable the USART Receive interrupt */
     USART_ITConfig(DISCOVERY_COM, USART_IT_RXNE, ENABLE);
@@ -279,13 +279,13 @@ static uint16_t VCP_COMConfig(uint8_t Conf)
     switch (linecoding.format)
     {
     case 0:
-      USART_InitStructure.USART_StopBits = USART_StopBits_1;
+   //   USART_InitStructure.USART_StopBits = USART_StopBits_1;
       break;
     case 1:
-      USART_InitStructure.USART_StopBits = USART_StopBits_1_5;
+    //  USART_InitStructure.USART_StopBits = USART_StopBits_1_5;
       break;
     case 2:
-      USART_InitStructure.USART_StopBits = USART_StopBits_2;
+    //  USART_InitStructure.USART_StopBits = USART_StopBits_2;
       break;
     default :
       VCP_COMConfig(DEFAULT_CONFIG);
@@ -296,13 +296,13 @@ static uint16_t VCP_COMConfig(uint8_t Conf)
     switch (linecoding.paritytype)
     {
     case 0:
-      USART_InitStructure.USART_Parity = USART_Parity_No;
+    //  USART_InitStructure.USART_Parity = USART_Parity_No;
       break;
     case 1:
-      USART_InitStructure.USART_Parity = USART_Parity_Even;
+    //  USART_InitStructure.USART_Parity = USART_Parity_Even;
       break;
     case 2:
-      USART_InitStructure.USART_Parity = USART_Parity_Odd;
+    //  USART_InitStructure.USART_Parity = USART_Parity_Odd;
       break;
     default :
       VCP_COMConfig(DEFAULT_CONFIG);
@@ -314,17 +314,17 @@ static uint16_t VCP_COMConfig(uint8_t Conf)
     {
     case 0x07:
       /* With this configuration a parity (Even or Odd) should be set */
-      USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+    //  USART_InitStructure.USART_WordLength = USART_WordLength_8b;
       break;
     case 0x08:
-      if (USART_InitStructure.USART_Parity == USART_Parity_No)
-      {
-        USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-      }
-      else 
-      {
-        USART_InitStructure.USART_WordLength = USART_WordLength_9b;
-      }
+    //  if (USART_InitStructure.USART_Parity == USART_Parity_No)
+     // {
+     //   USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+     // }
+     // else 
+     // {
+     //   USART_InitStructure.USART_WordLength = USART_WordLength_9b;
+     // }
       
       break;
     default :
@@ -332,12 +332,12 @@ static uint16_t VCP_COMConfig(uint8_t Conf)
       return (USBD_FAIL);
     }
     
-    USART_InitStructure.USART_BaudRate = linecoding.bitrate;
-    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-    USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+   // USART_InitStructure.USART_BaudRate = linecoding.bitrate;
+   // USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+   // USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
     
     /* Configure and enable the USART */
-    USART_Init(DISCOVERY_COM, &USART_InitStructure);
+    //USART_Init(DISCOVERY_COM, &USART_InitStructure);
   }
   return USBD_OK;
 }
