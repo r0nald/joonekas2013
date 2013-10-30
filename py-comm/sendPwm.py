@@ -38,7 +38,7 @@ packet = StartByte + dataStr + EndByte
 print packet
 
 try:
-	sercom = serial.Serial('/dev/ttyACM0')
+	sercom = serial.Serial('/COM3')
 	print sercom.read(100)
 	sercom.write(packet)
 except:

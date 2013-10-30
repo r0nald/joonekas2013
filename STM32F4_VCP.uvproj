@@ -166,7 +166,7 @@
             <DriverSelection>4104</DriverSelection>
           </Flash1>
           <Flash2>STLink\ST-LINKIII-KEIL_SWO.dll</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
         </Utilities>
         <TargetArmAds>
@@ -397,11 +397,6 @@
               <FilePath>.\src\main.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f4_discovery.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\stm32f4_discovery.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f4xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\stm32f4xx_it.c</FilePath>
@@ -585,6 +580,16 @@
               <FileName>joonekas.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\joonekas.h</FilePath>
+            </File>
+            <File>
+              <FileName>HW_Config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HW_Config.c</FilePath>
+            </File>
+            <File>
+              <FileName>HW_Config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\HW_Config.h</FilePath>
             </File>
           </Files>
         </Group>

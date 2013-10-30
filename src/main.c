@@ -7,6 +7,7 @@
 #include "enc_input_capture.h"
 #include "pwm_out.h"
 #include "Comm.h"
+#include "HW_Config.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -41,13 +42,9 @@ int main(void)
 	
   uint32_t i = 0;  
 	
-	ENC_TIM_Config();
-	PWM_TIM_Config();
+	HW_Config();
+
 	
-	Driver_EN_Config();
-	Driver_Enable(1,1);
-	
-	Comm_Init();
 	
 	/* 1ms period SysTick interrupt */
 	if (SysTick_Config(SystemCoreClock / 100))
@@ -56,16 +53,6 @@ int main(void)
     while (1);
   }
 	
-  STM32F4_Discovery_LEDInit(LED3);
-  STM32F4_Discovery_LEDInit(LED4);
-  STM32F4_Discovery_LEDInit(LED5);
-  STM32F4_Discovery_LEDInit(LED6);
-  STM32F4_Discovery_PBInit(BUTTON_USER, BUTTON_MODE_EXTI);
-
-  /*ORANGE LED ON */
-  STM32F4_Discovery_LEDOn(LED3);   
-  //Delay(0xFFFF);
-
 
   USBD_Init(&USB_OTG_dev,
 #ifdef USE_USB_OTG_HS 
@@ -84,7 +71,7 @@ int main(void)
   {
     if (i++ == 0x100000)
     {
-    	STM32F4_Discovery_LEDToggle(LED4);  /* GREEN LED TOGGLE */
+    	//STM32F4_Discovery_LEDToggle(LED4);  /* GREEN LED TOGGLE */
     	i = 0;
 
 			/*

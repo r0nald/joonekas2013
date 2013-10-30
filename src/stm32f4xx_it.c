@@ -29,7 +29,7 @@
 #include "stm32f4xx_it.h"
 #include "usb_core.h"
 #include "usbd_core.h"
-#include "stm32f4_discovery.h"
+
 #include "usbd_cdc_core.h"
 
 #include "joonekas.h"
@@ -251,16 +251,5 @@ void OTG_HS_EP1_OUT_IRQHandler(void)
 {
 }*/
 
-/**
-  * @brief  This function handles EXTI0_IRQ Handler.
-  * @param  None
-  * @retval None
-  */
-void EXTI0_IRQHandler(void)
-{
-	DISCOVERY_EXTI_IRQHandler();
-	/* Clear the EXTI line pending bit */
-	EXTI_ClearITPendingBit(USER_BUTTON_EXTI_LINE);
 
-}
 
