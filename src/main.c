@@ -7,7 +7,6 @@
 
 #include "enc_input_capture.h"
 #include "pwm_out.h"
-#include "Comm.h"
 #include "HW_Config.h"
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,12 +32,8 @@ void Delay(__IO uint32_t nTick);
 * Return         : None.
 *******************************************************************************/
 
-extern uint8_t usb_open;
-
 int main(void)
 {
-  uint32_t i = 0;  
-	
   USBD_Init(&USB_OTG_dev,
 #ifdef USE_USB_OTG_HS 
   USB_OTG_HS_CORE_ID,
@@ -59,14 +54,10 @@ int main(void)
 
   while (1)
   {
-    if (i++ == 0x100000)
-    {
-			GPIO_WriteBit(GPIOA, GPIO_Pin_9, 
-				GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11) ? Bit_SET : Bit_RESET);
-			GPIO_WriteBit(GPIOA, GPIO_Pin_10, 
-				GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_10) ? Bit_SET : Bit_RESET);
-    	i = 0;
-    }
+		GPIO_WriteBit(GPIOA, GPIO_Pin_9, 
+			GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11) ? Bit_SET : Bit_RESET);
+		GPIO_WriteBit(GPIOA, GPIO_Pin_10, 
+			GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_10) ? Bit_SET : Bit_RESET);
   }
 }
 
