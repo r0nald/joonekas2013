@@ -1,4 +1,5 @@
 #include "stm32f4xx.h"
+#include "stm32f4xx_gpio.h"
 #include "usbd_cdc_core.h"
 #include "usbd_cdc_vcp.h"
 #include "usbd_usr.h"
@@ -71,6 +72,11 @@ int main(void)
   {
     if (i++ == 0x100000)
     {
+			GPIO_WriteBit(GPIOA, GPIO_Pin_9, 
+				GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11) ? Bit_SET : Bit_RESET);
+			GPIO_WriteBit(GPIOA, GPIO_Pin_10, 
+				GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_10) ? Bit_SET : Bit_RESET);
+			
     	//STM32F4_Discovery_LEDToggle(LED4);  /* GREEN LED TOGGLE */
     	i = 0;
 
