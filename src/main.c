@@ -22,7 +22,6 @@ __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END ;
 
 /* Private function prototypes -----------------------------------------------*/
 void Delay(__IO uint32_t nTick);
-uint16_t VCP_DataTx   (uint8_t* Buf, uint32_t Len);
 
 /* Private functions ---------------------------------------------------------*/
 
