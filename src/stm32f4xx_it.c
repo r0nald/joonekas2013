@@ -58,7 +58,6 @@ extern uint32_t USBD_OTG_EP1OUT_ISR_Handler (USB_OTG_CORE_HANDLE *pdev);
 
 void TIM2_IRQHandler(void)
 {
-	DISCOVERY_EXTI_IRQHandler();
 	TIM_ClearITPendingBit(TIM2, TIM_IT_CC3 | TIM_IT_CC4);
 }
 

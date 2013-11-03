@@ -38,23 +38,8 @@ extern uint8_t usb_open;
 
 int main(void)
 {
-//	InputMsg inMsg;
-//	char sendText[5] = "test";
-	
   uint32_t i = 0;  
 	
-	HW_Config();
-
-	
-	
-	/* 1ms period SysTick interrupt */
-	if (SysTick_Config(SystemCoreClock / 100))
-  { 
-    /* Capture error */ 
-    while (1);
-  }
-	
-
   USBD_Init(&USB_OTG_dev,
 #ifdef USE_USB_OTG_HS 
   USB_OTG_HS_CORE_ID,
@@ -65,8 +50,13 @@ int main(void)
   &USBD_CDC_cb,
   &USR_cb);
 
-// PWM out test
-  //PWM_Set(0.3, 0.3);
+	HW_Config();
+	/* 1ms period SysTick interrupt */
+	if (SysTick_Config(SystemCoreClock / 100))
+  { 
+    /* Capture error */ 
+    while (1);
+  }
 
   while (1)
   {
@@ -76,16 +66,7 @@ int main(void)
 				GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11) ? Bit_SET : Bit_RESET);
 			GPIO_WriteBit(GPIOA, GPIO_Pin_10, 
 				GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_10) ? Bit_SET : Bit_RESET);
-			
-    	//STM32F4_Discovery_LEDToggle(LED4);  /* GREEN LED TOGGLE */
     	i = 0;
-
-			/*
-			if(usb_open)
-			{
-				VCP_DataTx((uint8_t*)sendText, 4);
-			}
-			*/
     }
   }
 }
