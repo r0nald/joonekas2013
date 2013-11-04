@@ -12,6 +12,7 @@
   #include "HW_Config.h"
   #include "pwm_out.h"
   #include "Comm.h"
+	#include "adc.h"
 
 /* Private typedef -----------------------------------------------------------*/
   GPIO_InitTypeDef          GPIO_InitStructure;
@@ -69,6 +70,8 @@ void HW_Config(void)
 		Comm_Init();
     Driver_Enable(1,1);					// Enable motor drivers
 		GPIOB->BSRRL = GPIO_Pin_15; // BT module RUN
+		
+		ADC_Config();
 }  
 
 /**
@@ -237,51 +240,3 @@ void USART6_Config(void)
   /* Enable USART */
   USART_Cmd(USART6, ENABLE);
 }
-
-
-/*
-void ADC_Config(void) {
-  
-  ADC_InitTypeDef       ADC_InitStructure;
-  ADC_CommonInitTypeDef ADC_CommonInitStructure;
-  
-  / * PCLK2 is the APB2 clock * / 
-  / * ADCCLK = PCLK2/6 = 72/6 = 12MHz* / 
-  //RCC_ADCCLKConfig(RCC_PCLK2_Div6); 
-  
-  / * Enable ADC1 clock so that we can talk to it * / 
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE); 
-  / * Put everything back to power-on defaults * / 
-  ADC_DeInit(); 
-  
-  
-
-  
-  
-  / * ADC Common Init ********************************************************** /
-  ADC_CommonInitStructure.ADC_Mode = ADC_Mode_Independent;
-  ADC_CommonInitStructure.ADC_Prescaler = ADC_Prescaler_Div2;
-  ADC_CommonInitStructure.ADC_DMAAccessMode = ADC_DMAAccessMode_Disabled;
-  ADC_CommonInitStructure.ADC_TwoSamplingDelay = ADC_TwoSamplingDelay_5Cycles;
-  ADC_CommonInit(&ADC_CommonInitStructure);
-  
-  
-  / * ADC1 Init **************************************************************** /
-  ADC_InitStructure.ADC_Resolution = ADC_Resolution_12b;
-  ADC_InitStructure.ADC_ScanConvMode = DISABLE;
-  ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
-  ADC_InitStructure.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
-  ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-  ADC_InitStructure.ADC_NbrOfConversion = 1;
-  ADC_Init(ADC1, &ADC_InitStructure);
-  
-}
-*/
-
-
-
-
-
-
-
-

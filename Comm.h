@@ -15,6 +15,7 @@ typedef __packed struct
 {
 	uint32_t 	time;
 	float			fval; 	
+	float 		fval2;
 	uint16_t 	lineSensors;
 } __attribute__((packed)) OutputMsg;
 
