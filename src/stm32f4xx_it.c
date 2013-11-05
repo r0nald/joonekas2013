@@ -240,6 +240,24 @@ void OTG_HS_EP1_OUT_IRQHandler(void)
 /******************************************************************************/
 
 
+/**
+* @brief  This function handles USRAT6 interrupt request.
+* @param  None
+* @retval None
+*/
+void USART6_IRQHandler(void)
+{
+
+  /* USART in mode Receiver --------------------------------------------------*/
+  if (USART_GetITStatus(USART6, USART_IT_RXNE) == SET)
+  {
+
+      /* Receive the USART data */
+
+        //TODO: XXX buffer = USART_ReceiveData(USART6); 
+    
+  }     
+}
 
 
 /**
