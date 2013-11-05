@@ -13,10 +13,12 @@ typedef __packed struct
 
 typedef __packed struct
 {
-	uint32_t 	time;
-	float			fval; 	
-	float 		fval2;
-	uint16_t 	lineSensors;
+	uint32_t 	time;						// Increasing every cycle
+	uint32_t	lineSensors;		// bit-wise information about sensor readings
+	
+	float			pidFeedback;
+	float			pidK, pidI, pidD, pidF;
+	float			pwmLeft, pwmRight;
 } __attribute__((packed)) OutputMsg;
 
 extern uint32_t 	Comm_OutputMsgPacketLen;

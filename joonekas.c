@@ -22,8 +22,8 @@ void Joonekas_SysTick(void)
 	time++;
 	outMsg.time = time;
 	outMsg.lineSensors = 0;
-	outMsg.fval = inMsg.leftPwm;
-	outMsg.fval2 = (float)ADC_GetLineSensor(0) / (float)(1<<5);
+	outMsg.pwmLeft = inMsg.leftPwm;
+	outMsg.pidF = (float)ADC_GetLineSensor(0) / (float)(1<<5);
 	Comm_SendOutMsg(&outMsg);
 	
 	Comm_OutMsgToStr(&outMsg, (char*)Comm_TxBuffer, &txPacketLen);

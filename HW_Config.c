@@ -239,6 +239,12 @@ void USART6_Config(void)
 	
 	USART_ITConfig(USART6, USART_IT_RXNE, ENABLE);
 	
+	NVIC_InitStructure.NVIC_IRQChannel = USART6_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+	
 	/* Configure DMA Initialization Structure */
   DMA_InitStructure.DMA_BufferSize 		= Comm_OutputMsgPacketLen ;
   DMA_InitStructure.DMA_FIFOMode 			= DMA_FIFOMode_Disable ;
