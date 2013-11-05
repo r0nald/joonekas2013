@@ -165,6 +165,7 @@
             <Capability>1</Capability>
             <DriverSelection>4104</DriverSelection>
           </Flash1>
+          <bUseTDR>0</bUseTDR>
           <Flash2>STLink\ST-LINKIII-KEIL_SWO.dll</Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
@@ -600,6 +601,16 @@
               <FileName>adc.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\adc.h</FilePath>
+            </File>
+            <File>
+              <FileName>dma_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\dma_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>dma_uart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\dma_uart.h</FilePath>
             </File>
           </Files>
         </Group>

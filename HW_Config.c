@@ -237,6 +237,8 @@ void USART6_Config(void)
   USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
   USART_Init(USART6, &USART_InitStructure);
 	
+	USART_ITConfig(USART6, USART_IT_RXNE, ENABLE);
+	
 	/* Configure DMA Initialization Structure */
   DMA_InitStructure.DMA_BufferSize 		= Comm_OutputMsgPacketLen ;
   DMA_InitStructure.DMA_FIFOMode 			= DMA_FIFOMode_Disable ;
