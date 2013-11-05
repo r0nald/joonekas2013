@@ -229,7 +229,7 @@ void USART6_Config(void)
 	/* Enable the DMA clock */
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2, ENABLE);
 	
-  USART_InitStructure.USART_BaudRate = 9600;
+  USART_InitStructure.USART_BaudRate = 115200;
   USART_InitStructure.USART_WordLength = USART_WordLength_8b;
   USART_InitStructure.USART_StopBits = USART_StopBits_2;
   USART_InitStructure.USART_Parity = USART_Parity_No;
