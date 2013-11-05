@@ -19,6 +19,9 @@ typedef __packed struct
 	uint16_t 	lineSensors;
 } __attribute__((packed)) OutputMsg;
 
+extern uint32_t 	Comm_OutputMsgPacketLen;
+extern uint8_t		Comm_TxBuffer[];
+
 /*
  * Call this to initialize internal states of Comm
  */

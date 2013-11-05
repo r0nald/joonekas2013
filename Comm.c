@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+uint32_t 	Comm_OutputMsgPacketLen = 2*sizeof(OutputMsg) + 2;
+uint8_t		Comm_TxBuffer[2*sizeof(OutputMsg) + 2];
+
 static const char 	StartByte 				= 0x02;
 static const char 	EndByte 					= '\n';
 static const int 	DataLen						= 2*sizeof(InputMsg); 	// If InputMsg is transmitted as hex string.

@@ -13,13 +13,14 @@
   #include "pwm_out.h"
   #include "Comm.h"
 	#include "adc.h"
+	
 
 /* Private typedef -----------------------------------------------------------*/
-  GPIO_InitTypeDef          GPIO_InitStructure;
-  TIM_TimeBaseInitTypeDef  	TIM_TimeBaseStructure;
-	TIM_OCInitTypeDef  				TIM_OCInitStructure;
-	NVIC_InitTypeDef          NVIC_InitStructure;
-  USART_InitTypeDef         USART_InitStructure;
+static  	GPIO_InitTypeDef          GPIO_InitStructure;
+static    TIM_TimeBaseInitTypeDef  	TIM_TimeBaseStructure;
+static  	TIM_OCInitTypeDef  				TIM_OCInitStructure;
+static  	NVIC_InitTypeDef          NVIC_InitStructure;
+static    USART_InitTypeDef         USART_InitStructure;
  
 
   
@@ -168,7 +169,6 @@ void GPIO_Config(void) {
   /* Connect USART pins to AF */  
   GPIO_PinAFConfig(GPIOC, GPIO_PinSource6, GPIO_AF_USART6);
   GPIO_PinAFConfig(GPIOC, GPIO_PinSource7, GPIO_AF_USART6);
-	
 }		
 
 
@@ -179,7 +179,6 @@ void GPIO_Config(void) {
   */
 void PWM_TIM_Config(void)
 {
-
   /* TIM3 clock enable */
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
 
@@ -215,9 +214,6 @@ void PWM_TIM_Config(void)
   TIM_Cmd(TIM3, ENABLE);
 }
 
-
-
-
 /**
   * @brief  Configure USART 6
   * @param  None
@@ -225,9 +221,13 @@ void PWM_TIM_Config(void)
   */
 void USART6_Config(void)
 {
- 
+	DMA_InitTypeDef  DMA_InitStructure;
+	
 	/* Enable UART clock */
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART6, ENABLE);
+	
+	/* Enable the DMA clock */
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2, ENABLE);
 	
   USART_InitStructure.USART_BaudRate = 9600;
   USART_InitStructure.USART_WordLength = USART_WordLength_8b;
@@ -236,7 +236,27 @@ void USART6_Config(void)
   USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
   USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
   USART_Init(USART6, &USART_InitStructure);
+	
+	/* Configure DMA Initialization Structure */
+  DMA_InitStructure.DMA_BufferSize 		= Comm_OutputMsgPacketLen ;
+  DMA_InitStructure.DMA_FIFOMode 			= DMA_FIFOMode_Disable ;
+  DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_1QuarterFull ;
+  DMA_InitStructure.DMA_MemoryBurst 	= DMA_MemoryBurst_Single ;
+  DMA_InitStructure.DMA_MemoryDataSize= DMA_MemoryDataSize_Byte;
+  DMA_InitStructure.DMA_MemoryInc 		= DMA_MemoryInc_Enable;
+  DMA_InitStructure.DMA_Mode 					= DMA_Mode_Normal;
+  DMA_InitStructure.DMA_PeripheralBaseAddr 	=(uint32_t) (&(USART6->DR)) ;
+  DMA_InitStructure.DMA_PeripheralBurst 		= DMA_PeripheralBurst_Single;
+  DMA_InitStructure.DMA_PeripheralDataSize 	= DMA_PeripheralDataSize_Byte;
+  DMA_InitStructure.DMA_PeripheralInc 			= DMA_PeripheralInc_Disable;
+  DMA_InitStructure.DMA_Priority 						= DMA_Priority_High;
+  /* Configure TX DMA */
+  DMA_InitStructure.DMA_Channel = DMA_Channel_5 ;
+  DMA_InitStructure.DMA_DIR 		= DMA_DIR_MemoryToPeripheral ;
+  DMA_InitStructure.DMA_Memory0BaseAddr =(uint32_t)Comm_TxBuffer ;
+  DMA_Init(DMA2_Stream6, &DMA_InitStructure);
     
   /* Enable USART */
   USART_Cmd(USART6, ENABLE);
+	USART_DMACmd(USART6, USART_DMAReq_Tx, ENABLE);
 }

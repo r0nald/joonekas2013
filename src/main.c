@@ -33,10 +33,11 @@ uint16_t VCP_DataTx   (uint8_t* Buf, uint32_t Len);
 * Return         : None.
 *******************************************************************************/
 
-extern uint8_t usb_open;
-
 int main(void)
 {
+	
+#ifndef USE_STM32F4_DISCOVERY
+	
   USBD_Init(&USB_OTG_dev,
 #ifdef USE_USB_OTG_HS 
   USB_OTG_HS_CORE_ID,
@@ -46,7 +47,9 @@ int main(void)
   &USR_desc, 
   &USBD_CDC_cb,
   &USR_cb);
-
+	
+#endif
+	
 	HW_Config();	
 	/* 1ms period SysTick interrupt */
 	if (SysTick_Config(SystemCoreClock / 100))
