@@ -10,6 +10,7 @@ void test_Comm()
 {
     int i;
     InputMsg msg;
+    char c;
     msg.cmdType = 1;
     msg.leftPwm = 10.0; msg.rightPwm = -1337;
     msg.checksum = 0;
@@ -41,17 +42,18 @@ void test_Comm()
     InputMsg recvMsg;
 
     recvMsg.leftPwm = 0; recvMsg.rightPwm = 0;
-    if(Comm_NewMsg(&recvMsg) == 1)
+    if(Comm_NewMsg() == 1)
         printf("New message detected!\n");
     else
         printf("!!! New message NOT detected!\n");
 
+    recvMsg = Comm_LastMsg();
     if(memcmp(&msg, &recvMsg, sizeof(InputMsg)) == 0)
         printf("Messages are equal!\n");
     else
         printf("!!! Messages are NOT equal!\n");
 
-    if(Comm_NewMsg(&recvMsg) == 1)
+    if(Comm_NewMsg() == 1)
         printf("!!! New message detected AGAIN!\n");
 
     /*
@@ -63,17 +65,18 @@ void test_Comm()
     Comm_Process(msgBuf, strlen(msgStr) + 2);
 
     recvMsg.leftPwm = 0; recvMsg.rightPwm = 0;
-    if(Comm_NewMsg(&recvMsg) == 1)
+    if(Comm_NewMsg() == 1)
         printf("New message detected!\n");
     else
         printf("!!! New message NOT detected!\n");
 
+    recvMsg = Comm_LastMsg();
     if(memcmp(&msg, &recvMsg, sizeof(InputMsg)) == 0)
         printf("Messages are equal!\n");
     else
         printf("!!! Messages are NOT equal!\n");
 
-    if(Comm_NewMsg(&recvMsg) == 1)
+    if(Comm_NewMsg() == 1)
         printf("!!! New message detected AGAIN!\n");
 
     /*
@@ -87,17 +90,18 @@ void test_Comm()
     Comm_Process(trash, strlen(trash));
 
     recvMsg.leftPwm = 0; recvMsg.rightPwm = 0;
-    if(Comm_NewMsg(&recvMsg) == 1)
+    if(Comm_NewMsg() == 1)
         printf("New message detected!\n");
     else
         printf("!!! New message NOT detected!\n");
 
+    recvMsg = Comm_LastMsg();
     if(memcmp(&msg, &recvMsg, sizeof(InputMsg)) == 0)
         printf("Messages are equal!\n");
     else
         printf("!!! Messages are NOT equal!\n");
 
-    if(Comm_NewMsg(&recvMsg) == 1)
+    if(Comm_NewMsg() == 1)
         printf("!!! New message detected AGAIN!\n");
 
     /*
@@ -114,17 +118,18 @@ void test_Comm()
     Comm_Process(lastPieceWithTrash, strlen(trash));
 
     recvMsg.leftPwm = 0; recvMsg.rightPwm = 0;
-    if(Comm_NewMsg(&recvMsg) == 1)
+    if(Comm_NewMsg() == 1)
         printf("New message detected!\n");
     else
         printf("!!! New message NOT detected!\n");
 
+    recvMsg = Comm_LastMsg();
     if(memcmp(&msg, &recvMsg, sizeof(InputMsg)) == 0)
         printf("Messages are equal!\n");
     else
         printf("!!! Messages are NOT equal!\n");
 
-    if(Comm_NewMsg(&recvMsg) == 1)
+    if(Comm_NewMsg() == 1)
         printf("!!! New message detected AGAIN!\n");
 
     /*
@@ -136,7 +141,7 @@ void test_Comm()
     Comm_Process(msgBuf + 5, strlen(msgStr) + 2 - 5);
 
     recvMsg.leftPwm = 0; recvMsg.rightPwm = 0;
-    if(Comm_NewMsg(&recvMsg) == 0)
+    if(Comm_NewMsg() == 0)
         printf("New message not detected!\n");
     else
         printf("!!! New message detected!\n");
@@ -150,17 +155,18 @@ void test_Comm()
     Comm_Process(msgBuf, strlen(msgStr) + 2);
 
     recvMsg.leftPwm = 0; recvMsg.rightPwm = 0;
-    if(Comm_NewMsg(&recvMsg) == 1)
+    if(Comm_NewMsg() == 1)
         printf("New message detected!\n");
     else
         printf("!!! New message NOT detected!\n");
 
+    recvMsg = Comm_LastMsg();
     if(memcmp(&msg, &recvMsg, sizeof(InputMsg)) == 0)
         printf("Messages are equal!\n");
     else
         printf("!!! Messages are NOT equal!\n");
 
-    if(Comm_NewMsg(&recvMsg) == 1)
+    if(Comm_NewMsg() == 1)
         printf("!!! New message detected AGAIN!\n");
     /*
      * Send message char-by-char
@@ -169,20 +175,24 @@ void test_Comm()
     printf(" ---- TEST 7 ----\n");
 
     for(i = 0 ; i < strlen(msgStr) + 2 ; i++)
-        Comm_Process(msgBuf + i, 1);
+    {
+        c = msgBuf[i];
+        Comm_Process(&c, 1);
+    }
 
     recvMsg.leftPwm = 0; recvMsg.rightPwm = 0;
-    if(Comm_NewMsg(&recvMsg) == 1)
+    if(Comm_NewMsg() == 1)
         printf("New message detected!\n");
     else
         printf("!!! New message NOT detected!\n");
 
+    recvMsg = Comm_LastMsg();
     if(memcmp(&msg, &recvMsg, sizeof(InputMsg)) == 0)
         printf("Messages are equal!\n");
     else
         printf("!!! Messages are NOT equal!\n");
 
-    if(Comm_NewMsg(&recvMsg) == 1)
+    if(Comm_NewMsg() == 1)
         printf("!!! New message detected AGAIN!\n");
 
     char* recvMsgStr = msgAsStr(recvMsg);

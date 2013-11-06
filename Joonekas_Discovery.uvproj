@@ -612,6 +612,21 @@
               <FileType>5</FileType>
               <FilePath>.\dma_uart.h</FilePath>
             </File>
+            <File>
+              <FileName>controller1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\controller1.c</FilePath>
+            </File>
+            <File>
+              <FileName>controller1.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\controller1.h</FilePath>
+            </File>
+            <File>
+              <FileName>line_sens.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\line_sens.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
