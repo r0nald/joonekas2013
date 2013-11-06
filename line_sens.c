@@ -27,6 +27,7 @@ LineSenseOut 	LS_Feedback(uint32_t sensReadings)
 	float			tempFb;
 	uint32_t 	filtReading;
 
+    out.finishLineDetected = 0;
 	out.numOfLinesDetected = LS_NumOfLines(sensReadings);
 
 	switch(out.numOfLinesDetected)
@@ -57,6 +58,9 @@ LineSenseOut 	LS_Feedback(uint32_t sensReadings)
 					smallestFbDiff 		= fabs(out.feedback - prevFeedback);
 				}
 			}
+
+			if(out.numOfLinesDetected == 3)
+                out.finishLineDetected = 1;
 			break;
 	}
 
