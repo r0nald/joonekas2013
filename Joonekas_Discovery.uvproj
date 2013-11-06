@@ -627,6 +627,11 @@
               <FileType>1</FileType>
               <FilePath>.\line_sens.c</FilePath>
             </File>
+            <File>
+              <FileName>line_sens.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\line_sens.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

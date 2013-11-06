@@ -19,6 +19,8 @@ typedef __packed struct
 	float			pidFeedback;
 	float			pidK, pidI, pidD, pidF;
 	float			pwmLeft, pwmRight;
+	
+	float			battVoltage;
 } __attribute__((packed)) OutputMsg;
 
 extern uint32_t 	Comm_OutputMsgPacketLen;
