@@ -12,9 +12,25 @@
 
 __IO uint16_t ADC1ConvertedValue[BufferLenght];
 
-uint16_t 	ADC_GetLineSensor(uint8_t sensor)
+uint32_t	ADC_GetLineSensing(uint16_t threshold)
 {
-	return ADC1ConvertedValue[sensor];
+	uint16_t i;
+	uint32_t lineSens = 0;
+	
+	for(i = 0 ; i < BufferLenght ; i++)
+	{
+		if(ADC1ConvertedValue[i] > threshold)
+		{
+			lineSens |= (1<<i);
+		}
+	}
+	
+	return lineSens;	
+}
+
+uint16_t 	ADC_GetAdcReading(uint8_t channel)
+{
+	return ADC1ConvertedValue[channel];
 }
 
 void ADC_Config(void)
