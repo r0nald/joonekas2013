@@ -592,6 +592,46 @@
               <FileType>5</FileType>
               <FilePath>.\HW_Config.h</FilePath>
             </File>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\adc.h</FilePath>
+            </File>
+            <File>
+              <FileName>dma_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\dma_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>dma_uart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\dma_uart.h</FilePath>
+            </File>
+            <File>
+              <FileName>controller1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\controller1.c</FilePath>
+            </File>
+            <File>
+              <FileName>controller1.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\controller1.h</FilePath>
+            </File>
+            <File>
+              <FileName>line_sens.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\line_sens.c</FilePath>
+            </File>
+            <File>
+              <FileName>line_sens.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\line_sens.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

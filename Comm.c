@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+uint32_t 	Comm_OutputMsgPacketLen = 2*sizeof(OutputMsg) + 2;
+uint8_t		Comm_TxBuffer[2*sizeof(OutputMsg) + 2];
+
 static const char 	StartByte 				= 0x02;
 static const char 	EndByte 					= '\n';
 static const int 	DataLen						= 2*sizeof(InputMsg); 	// If InputMsg is transmitted as hex string.
@@ -26,7 +29,7 @@ void Comm_Process(uint8_t* Buf, uint32_t Len)
 	int msgDataEnd;             // Last byte of data + 1. EndByte index.
 	int i;
 	char hexByteBuf[3];
-	
+
 	if(Len == 0)
         return;
 
@@ -49,6 +52,9 @@ void Comm_Process(uint8_t* Buf, uint32_t Len)
 
 	for(msgDataEnd = msgDataStart + 1; msgDataEnd < Len && Buf[msgDataEnd] != EndByte; msgDataEnd++)
 		;
+
+    if(Len == 1 && Buf[0] == EndByte)
+        msgDataEnd = 0;
 
     if(InBufIdx + (msgDataEnd - msgDataStart) > DataLen)
     {
@@ -96,7 +102,7 @@ void 		Comm_SendOutMsg(const OutputMsg* msg)
 {
 	char 			outBuf[2*sizeof(OutputMsg)+3];
 	uint16_t 	len;
-	
+
 	Comm_OutMsgToStr(msg, outBuf, &len);
 	VCP_DataTx((uint8_t*)outBuf, len);
 }

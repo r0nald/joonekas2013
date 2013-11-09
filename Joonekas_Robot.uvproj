@@ -165,7 +165,7 @@
             <Capability>1</Capability>
             <DriverSelection>4104</DriverSelection>
           </Flash1>
-          <bUseTDR>1</bUseTDR>
+          <bUseTDR>0</bUseTDR>
           <Flash2>STLink\ST-LINKIII-KEIL_SWO.dll</Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
@@ -349,7 +349,7 @@
             <uSurpInc>0</uSurpInc>
             <VariousControls>
               <MiscControls>--fpu=softvfp</MiscControls>
-              <Define>USE_STDPERIPH_DRIVER, USE_STM32F4_DISCOVERY, USE_USB_OTG_FS,STM32F4XX,__USE_C99_MATH</Define>
+              <Define>USE_STDPERIPH_DRIVER, USE_USB_OTG_FS,STM32F4XX,__USE_C99_MATH</Define>
               <Undefine></Undefine>
               <IncludePath>.\inc;.\Libraries\CMSIS\Include;.\Libraries\Device\STM32F4xx\Include;.\Libraries\STM32F4xx_StdPeriph_Driver\inc;.\Libraries\STM32_USB_Device_Library\Class\cdc\inc;.\Libraries\STM32_USB_Device_Library\Core\inc;.\Libraries\STM32_USB_OTG_Driver\inc;.</IncludePath>
             </VariousControls>
@@ -591,6 +591,26 @@
               <FileName>HW_Config.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\HW_Config.h</FilePath>
+            </File>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\adc.h</FilePath>
+            </File>
+            <File>
+              <FileName>dma_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\dma_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>dma_uart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\dma_uart.h</FilePath>
             </File>
           </Files>
         </Group>

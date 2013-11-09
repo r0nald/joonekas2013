@@ -33,6 +33,7 @@
 #include "usbd_cdc_core.h"
 
 #include "joonekas.h"
+#include "Comm.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -58,7 +59,6 @@ extern uint32_t USBD_OTG_EP1OUT_ISR_Handler (USB_OTG_CORE_HANDLE *pdev);
 
 void TIM2_IRQHandler(void)
 {
-	DISCOVERY_EXTI_IRQHandler();
 	TIM_ClearITPendingBit(TIM2, TIM_IT_CC3 | TIM_IT_CC4);
 }
 
@@ -240,6 +240,22 @@ void OTG_HS_EP1_OUT_IRQHandler(void)
 /******************************************************************************/
 
 
+/**
+* @brief  This function handles USRAT6 interrupt request.
+* @param  None
+* @retval None
+*/
+void USART6_IRQHandler(void)
+{
+  /* USART in mode Receiver --------------------------------------------------*/
+  if (USART_GetITStatus(USART6, USART_IT_RXNE) == SET)
+  {
+		uint8_t rx = USART_ReceiveData(USART6); 
+		Comm_Process(&rx, 1);   
+
+		USART_ClearITPendingBit(USART6, USART_IT_RXNE);
+  }     
+}
 
 
 /**

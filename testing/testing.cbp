@@ -23,15 +23,26 @@
 		</Compiler>
 		<Unit filename="../Comm.c">
 			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
 		</Unit>
 		<Unit filename="../Comm.h" />
+		<Unit filename="../line_sens.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../line_sens.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="test_Comm.c">
 			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
 		</Unit>
 		<Unit filename="test_Comm.h" />
+		<Unit filename="test_line_sens.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />
