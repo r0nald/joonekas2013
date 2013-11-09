@@ -15,7 +15,23 @@ void Joonekas_SysTick(void)
 	if(Comm_NewMsg())
 	{
 		inMsg = Comm_LastMsg();
-		PWM_Set(inMsg.leftPwm, inMsg.rightPwm);
+
+		switch(inMsg.cmdType)
+		{
+			case Stop:
+				PWM_Set(0, 0);
+				// Reset PID
+				break;
+			case SetPwm:
+				PWM_Set(inMsg.leftPwm, inMsg.rightPwm);
+				break;
+			case SetPid:
+				// Set PID params.
+				// Check if stopped?
+				break;
+			case Run:
+				// Main controller
+		}
 	}
 	
 	time++;

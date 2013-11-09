@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+enum CommandFromPC { Stop = 0, Run = 1, SetPid = 2, SetPwm  = 3 };
+
 /*
  * __packed packs the struct for Keil compiler. 
  * Not supported by gcc so for testing compile with -D__packed=/C comments/
@@ -8,7 +10,6 @@ typedef __packed struct
 {
 	float 		leftPwm, rightPwm;
 	uint8_t 	cmdType;
-	uint8_t 	checksum;
 } __attribute__((packed)) InputMsg;
 
 typedef __packed struct
