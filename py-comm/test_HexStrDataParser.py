@@ -31,3 +31,6 @@ parser = HexStrDataParser('ffB')
 assert(parser.stringToData(packedStr)[0] == 1.0)
 assert(parser.stringToData(packedStr)[1] == -1.0)
 assert(parser.stringToData(packedStr)[2] == 255)
+
+parser = HexStrDataParser('f')
+print parser.stringToData('dcc4cb33')[0]
