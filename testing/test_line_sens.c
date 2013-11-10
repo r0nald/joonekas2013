@@ -74,5 +74,8 @@ void test_line_sens(void)
     lsOut = LS_Feedback(0b1111111111);
     assert(near(lsOut.feedback, 0, 1e-6));
 
+    lsOut = LS_Feedback(0b0000000111);
+    assert(near(lsOut.feedback, -2.5, 1));
+
     printf("LS_BitsToFeedback OK\n");
 }

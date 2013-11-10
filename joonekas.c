@@ -48,12 +48,20 @@ void Joonekas_SysTick(void)
 				break;
 			case Run:
 				Driver_Enable(1, 1);
-				controllerOut = Controller1_Run(outMsg.pidFeedback);
-				outMsg.pwmLeft = controllerOut.pwmLeft; outMsg.pwmRight = controllerOut.pwmRight;
-				PWM_Set(outMsg.pwmLeft, outMsg.pwmRight);
 				break;
 		}
 	}
+	
+	if(inMsg.cmdType == Run)
+	{
+			Driver_Enable(1, 1); // Shouldn't be needed!
+			controllerOut = Controller1_Run(outMsg.pidFeedback);
+			outMsg.pwmLeft = controllerOut.pwmLeft; outMsg.pwmRight = controllerOut.pwmRight;
+			PWM_Set(outMsg.pwmLeft, outMsg.pwmRight);		
+	}
+	
+	outMsg.pidK = controllerOut.uk;
+	outMsg.pidU = controllerOut.u;
 	
 	time++;
 	outMsg.time = time;

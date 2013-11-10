@@ -21,7 +21,7 @@ typedef __packed struct
 	uint32_t	adc1;						// for debugging
 	
 	float			pidFeedback;
-	float			pidK, pidI, pidD, pidF;
+	float			pidK, pidI, pidD, pidU;
 	float			pwmLeft, pwmRight;
 	
 	float			battVoltage;

@@ -53,7 +53,7 @@ LineSenseOut 	LS_Feedback(uint32_t sensReadings)
 
 				if(fabs(tempFb - prevFeedback) < smallestFbDiff)
 				{
-					out.feedback 			= tempFb;
+					out.feedback 		= tempFb;
 					out.usedLinePatt 	= filtReading;
 					smallestFbDiff 		= fabs(out.feedback - prevFeedback);
 				}

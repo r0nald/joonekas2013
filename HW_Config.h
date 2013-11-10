@@ -14,7 +14,7 @@
 /* Defines ------------------------------------------------------------------ */
   #define CoreClk           (168000000)
 	
-	#define TIM3_Period     	(1000)          
+	#define TIM3_Period     	(5000)          
   #define TIM3_Prescaler  	((uint16_t) ((CoreClk /2) / 21000000) - 1)           
 
 

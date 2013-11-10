@@ -62,6 +62,8 @@ void ADC_Config(void)
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 	
@@ -110,9 +112,9 @@ void ADC_Config(void)
   ADC_Init(ADCx, &ADC_InitStructure);
 
   /* ... */ 
-  ADC_RegularChannelConfig(ADCx, ADC_Channel_0, 1, ADC_SampleTime_3Cycles);
-  ADC_RegularChannelConfig(ADCx, ADC_Channel_1, 2, ADC_SampleTime_3Cycles);
-  ADC_RegularChannelConfig(ADCx, ADC_Channel_2, 3, ADC_SampleTime_3Cycles);
+  ADC_RegularChannelConfig(ADCx, ADC_Channel_2, 1, ADC_SampleTime_3Cycles);
+  ADC_RegularChannelConfig(ADCx, ADC_Channel_0, 2, ADC_SampleTime_3Cycles);
+  ADC_RegularChannelConfig(ADCx, ADC_Channel_1, 3, ADC_SampleTime_3Cycles);
   ADC_RegularChannelConfig(ADCx, ADC_Channel_3, 4, ADC_SampleTime_3Cycles);
 	ADC_RegularChannelConfig(ADCx, ADC_Channel_4, 5, ADC_SampleTime_3Cycles);
 	ADC_RegularChannelConfig(ADCx, ADC_Channel_5, 6, ADC_SampleTime_3Cycles);
