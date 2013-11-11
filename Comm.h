@@ -9,16 +9,19 @@ enum CommandFromPC { Stop = 0, Run = 1, SetPid = 2, SetPwm  = 3 };
 typedef __packed struct
 {
 	float 		leftPwm, rightPwm;
-	uint8_t 	cmdType;
+	float			pidK, pidI, pidF;
+	uint32_t 	cmdType;
 } __attribute__((packed)) InputMsg;
 
 typedef __packed struct
 {
 	uint32_t 	time;						// Increasing every cycle
 	uint32_t	lineSensors;		// bit-wise information about sensor readings
+	uint32_t	usedSensors;		// same, but after removing noise or start/finish-line
+	uint32_t	adc1;						// for debugging
 	
 	float			pidFeedback;
-	float			pidK, pidI, pidD, pidF;
+	float			pidK, pidI, pidD, pidU;
 	float			pwmLeft, pwmRight;
 	
 	float			battVoltage;

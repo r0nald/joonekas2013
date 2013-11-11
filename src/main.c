@@ -36,7 +36,7 @@ uint16_t VCP_DataTx   (uint8_t* Buf, uint32_t Len);
 int main(void)
 {
 	
-#ifndef USE_STM32F4_DISCOVERY
+#ifdef USE_STM32F4_DISCOVERY
 	
   USBD_Init(&USB_OTG_dev,
 #ifdef USE_USB_OTG_HS 

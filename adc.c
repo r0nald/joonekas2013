@@ -12,9 +12,25 @@
 
 __IO uint16_t ADC1ConvertedValue[BufferLenght];
 
-uint16_t 	ADC_GetLineSensor(uint8_t sensor)
+uint32_t	ADC_GetLineSensing(uint16_t threshold)
 {
-	return ADC1ConvertedValue[sensor];
+	uint16_t i;
+	uint32_t lineSens = 0;
+	
+	for(i = 0 ; i < BufferLenght ; i++)
+	{
+		if(ADC1ConvertedValue[i] > threshold)
+		{
+			lineSens |= (1<<i);
+		}
+	}
+	
+	return lineSens;	
+}
+
+uint16_t 	ADC_GetAdcReading(uint8_t channel)
+{
+	return ADC1ConvertedValue[channel];
 }
 
 void ADC_Config(void)
@@ -45,6 +61,8 @@ void ADC_Config(void)
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
@@ -94,9 +112,9 @@ void ADC_Config(void)
   ADC_Init(ADCx, &ADC_InitStructure);
 
   /* ... */ 
-  ADC_RegularChannelConfig(ADCx, ADC_Channel_0, 1, ADC_SampleTime_3Cycles);
-  ADC_RegularChannelConfig(ADCx, ADC_Channel_1, 2, ADC_SampleTime_3Cycles);
-  ADC_RegularChannelConfig(ADCx, ADC_Channel_2, 3, ADC_SampleTime_3Cycles);
+  ADC_RegularChannelConfig(ADCx, ADC_Channel_2, 1, ADC_SampleTime_3Cycles);
+  ADC_RegularChannelConfig(ADCx, ADC_Channel_0, 2, ADC_SampleTime_3Cycles);
+  ADC_RegularChannelConfig(ADCx, ADC_Channel_1, 3, ADC_SampleTime_3Cycles);
   ADC_RegularChannelConfig(ADCx, ADC_Channel_3, 4, ADC_SampleTime_3Cycles);
 	ADC_RegularChannelConfig(ADCx, ADC_Channel_4, 5, ADC_SampleTime_3Cycles);
 	ADC_RegularChannelConfig(ADCx, ADC_Channel_5, 6, ADC_SampleTime_3Cycles);
