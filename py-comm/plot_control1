@@ -1,8 +1,11 @@
 #!/bin/bash
 gnuplot -p<<EOF
-plot '$1' using 1:2 with l title 'feedback', \
-	'' using 1:3 with l title 'pidU' axes x1y2, \
-	'' using 1:4 with l title 'pwmLeft' axes x1y2, \
-	'' using 1:5 with l title 'pwmRight' axes x1y2
+plot '$1' using 1:(0.1*\$2) with l title 'feedback', \
+	'' using 1:3 with l title 'pidU', \
+	'' using 1:4 with l title 'pwmLeft', \
+	'' using 1:5 with l title 'pwmRight', \
+	'' using 1:6 with l title 'pidP', \
+	'' using 1:7 with l title 'pidI', \
+	'' using 1:8 with l title 'pidD'
 EOF
 
