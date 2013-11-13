@@ -5,6 +5,8 @@ import time
 import sys
 import curses
 from HexStrDataParser import HexStrDataParser, DataToHexStr
+import datetime
+import subprocess
 
 StartByte = chr(2)
 EndByte = chr(10)
@@ -74,6 +76,9 @@ def sendPwm():
 
 firstLine = False
 running = False
+logFile = None
+fname = None
+firstTime = None
 
 while True:
 	sercom.readline()
@@ -95,14 +100,25 @@ while True:
 		dataOk = False
 
 	if dataOk:
+		timeTick = data[0]
 		lineSensors = data[1]
 		usedSensors = data[2]
 		pidFeedback = data[4]
 		leftPwm = data[9]
 		rightPwm = data[10]
 		pidU = data[8]
+
+		if not firstTime:
+			firstTime = timeTick
+
+		time = 0.01*(timeTick - firstTime)
 	
 		debugLine = '{0:0b}'.format(lineSensors).zfill(10) + ' ' +  '{0:0b}'.format(usedSensors).zfill(10) + ' ' + str(pidFeedback) + ' ' + str(pidU)
+
+		if logFile:
+			logLine = '{} {} {} {} {}'.format(time, pidFeedback, pidU, leftPwm, rightPwm)
+			logFile.write(logLine +'\n')
+
 	else:
 		currentDataWin.addstr(0, 0, 'No comm')
 	
@@ -120,7 +136,12 @@ while True:
 			sendStop()
 			running = False
 			stdscr.addstr(0, 0, 'STOPPED')
+			logFile.close()
+			logFile = None
+			subprocess.Popen('./plot_control1 ' + fname, shell=True)
 		else:
+			fname = datetime.datetime.now().strftime('run%d%H%M%S.log')
+			logFile = open(fname, 'w')
 			sendStart()
 			running = True
 			stdscr.addstr(0, 0, 'RUNNING')
