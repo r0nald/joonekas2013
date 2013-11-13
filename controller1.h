@@ -22,3 +22,5 @@ typedef struct
 
 void 						Controller1_Reset(void);
 Controller1Out 	Controller1_Run(float fb);
+void 						Controller1_SetConf(float basePwm, float P, float I, float D);
+void 						Controller1_Init(void);

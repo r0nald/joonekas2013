@@ -9,6 +9,7 @@
 
 static uint32_t time = 0;
 static InputMsg inMsg;
+static uint32_t lastFinishTime = 0;
 
 void Joonekas_SysTick(void)
 {
@@ -25,6 +26,7 @@ void Joonekas_SysTick(void)
 	lineSense = LS_Feedback(outMsg.lineSensors);
 	outMsg.pidFeedback = lineSense.feedback;
 	outMsg.usedSensors = lineSense.usedLinePatt;
+	outMsg.finishLine = lineSense.finishLineDetected;
 	
 	if(Comm_NewMsg())
 	{
@@ -43,10 +45,11 @@ void Joonekas_SysTick(void)
 				outMsg.pwmLeft = inMsg.leftPwm; outMsg.pwmRight = inMsg.rightPwm;
 				break;
 			case SetPid:
-				// Set PID params.
-				// Check if stopped?
+				Controller1_SetConf(inMsg.basePwm, inMsg.pidP, inMsg.pidI, inMsg.pidD);
 				break;
 			case Run:
+				time = 0;
+				lastFinishTime = 0;				
 				Driver_Enable(1, 1);
 				break;
 		}
@@ -54,10 +57,19 @@ void Joonekas_SysTick(void)
 	
 	if(inMsg.cmdType == Run)
 	{
-			Driver_Enable(1, 1); // Shouldn't be needed!
 			controllerOut = Controller1_Run(outMsg.pidFeedback);
 			outMsg.pwmLeft = controllerOut.pwmLeft; outMsg.pwmRight = controllerOut.pwmRight;
-			PWM_Set(outMsg.pwmLeft, outMsg.pwmRight);		
+			outMsg.pidK = controllerOut.uk; outMsg.pidI = controllerOut.ui; outMsg.pidD = controllerOut.ud;
+			PWM_Set(outMsg.pwmLeft, outMsg.pwmRight);
+		
+			if(lineSense.finishLineDetected)
+			{
+				if(lastFinishTime)
+				{
+					outMsg.lastLapTime = (time - lastFinishTime);
+				}
+				lastFinishTime = time;
+			}
 	}
 	
 	outMsg.pidK = controllerOut.uk;

@@ -9,7 +9,7 @@ enum CommandFromPC { Stop = 0, Run = 1, SetPid = 2, SetPwm  = 3 };
 typedef __packed struct
 {
 	float 		leftPwm, rightPwm;
-	float			pidK, pidI, pidF;
+	float			basePwm, pidP, pidI, pidD;
 	uint32_t 	cmdType;
 } __attribute__((packed)) InputMsg;
 
@@ -25,6 +25,8 @@ typedef __packed struct
 	float			pwmLeft, pwmRight;
 	
 	float			battVoltage;
+	uint32_t	lastLapTime;
+	uint8_t		finishLine;
 } __attribute__((packed)) OutputMsg;
 
 extern uint32_t 	Comm_OutputMsgPacketLen;

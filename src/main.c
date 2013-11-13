@@ -8,6 +8,7 @@
 #include "pwm_out.h"
 #include "Comm.h"
 #include "HW_Config.h"
+#include "controller1.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -50,6 +51,7 @@ int main(void)
 	
 #endif
 	
+	Controller1_Init();
 	HW_Config();	
 	/* 1ms period SysTick interrupt */
 	if (SysTick_Config(SystemCoreClock / 100))
