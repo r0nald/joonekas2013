@@ -42,10 +42,11 @@ float			pidK, pidI, pidD, pidU;		# 5 6 7 8
 float			pwmLeft, pwmRight;		# 9 10
 
 float			battVoltage;			# 11
-uint8_t			finishLineDetected;		# 12
+uint32_t		lastLapTime			# 12
+uint8_t			finishLineDetected;		# 13
 '''
 
-parser = HexStrDataParser('IIII' + 'f' + 'ffff' + 'fff' + 'b')
+parser = HexStrDataParser('IIII' + 'f' + 'ffff' + 'fff' + 'Ib')
 
 '''
 float 		leftPwm, rightPwm;		# 0 1
@@ -89,9 +90,11 @@ running = False
 logFile = None
 fname = None
 firstTime = None
+paramStr = ''
 conf = None
 lastFinishTime = None
 prevFinishLine = 0
+finishTimeLine = ''
 
 while True:
 	sercom.readline()
@@ -125,12 +128,12 @@ while True:
 		pidP = data[5]
 		pidI = data[6]
 		pidD = data[7]
-		finishLine = data[8]
+		lastLapTime = data[12]
 
 		if not firstTime:
 			firstTime = timeTick
 
-		time = 0.01*(timeTick - firstTime)
+		time = timeTick
 	
 		debugLine = '{0:0b}'.format(lineSensors).zfill(10) + ' ' +  '{0:0b}'.format(usedSensors).zfill(10) + ' ' + str(pidFeedback) + ' ' + str(pidU)
 
@@ -139,24 +142,13 @@ while True:
 			logFile.write(logLine +'\n')
 
 		currentDataWin.addstr(0, 0, debugLine)
-		currentDataWin.addstr(1, 0, str(leftPwm) + ' ' + str(rightPwm))
+		currentDataWin.addstr(1, 0, str(leftPwm) + ' ' +str(rightPwm))
+		currentDataWin.addstr(2, 0, 'Last lap time : ' +str(lastLapTime))
 
-		if finishLine == 1:
-			print 'FINISH'
-			break
-
-		if finishLine == 1 and prevFinishLine == 0:
-			if lastFinishTime:
-				now = datetime.datetime.now()
-				timer = (now - lastFinishTime).total_seconds()
-				currentDataWin.addstr(2, 0, 'Lap time : ' + str(timer))
-			lastFinishTime = now
-			currentDataWin.addstr(2, 0, 'Finish')
-		prevFinishLine = finishLine
 
 	else:
 		currentDataWin.addstr(0, 0, 'No comm')
-	
+
 	currentDataWin.refresh()
 
 	c = stdscr.getch()
@@ -170,14 +162,16 @@ while True:
 			stdscr.addstr(0, 0, 'STOPPED')
 			logFile.close()
 			logFile = None
-			subprocess.Popen('./plot_control1 ' + fname, shell=True)
+#		subprocess.Popen('./plot_control1 ' + fname, shell=True)
 		else:
 			fname = datetime.datetime.now().strftime('run%d%H%M%S.log')
 			lastFinishTime = None
 			logFile = open(fname, 'w')
+			logFile.write('# ' + paramStr + '\n')
 			sendStart()
 			running = True
 			stdscr.addstr(0, 0, 'RUNNING')
+			finishTimeLine = ''
 
 	elif c == ord('p'):
 		sendPwm()

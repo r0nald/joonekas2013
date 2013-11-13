@@ -32,5 +32,6 @@ assert(parser.stringToData(packedStr)[0] == 1.0)
 assert(parser.stringToData(packedStr)[1] == -1.0)
 assert(parser.stringToData(packedStr)[2] == 255)
 
-parser = HexStrDataParser('f')
-print parser.stringToData('dcc4cb33')[0]
+parser = HexStrDataParser('IIII' + 'f' + 'ffff' + 'fff' + 'b')
+packedStr = 'a70007000033020000300000003a0000000000000000000000355700083030000000000000f00000000000000000000001'
+print parser.stringToData(packedStr)[12]
