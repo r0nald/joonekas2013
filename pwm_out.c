@@ -12,11 +12,11 @@
  */
 void PWM_Set(float left, float right)
 {
-	TIM_SetCompare3(TIM3, TIM3_Period * fmaxf(0.0, fminf(1.0, left)));
-	TIM_SetCompare2(TIM3, TIM3_Period * fmaxf(0.0, fminf(1.0, right)));
+	TIM_SetCompare3(TIM3, TIM3_Period * fmaxf(0.1, fminf(0.8, left)));
+	TIM_SetCompare2(TIM3, TIM3_Period * fmaxf(0.1, fminf(0.8, right)));
 }
 
-
+ 
 
 /*
  *	Enable or Disable Half bridge drivers
