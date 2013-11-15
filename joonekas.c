@@ -7,9 +7,15 @@
 #include "controller1.h"
 #include "line_sens.h"
 
+#include "stm32f4xx_gpio.h"
+
 static uint32_t time = 0;
 static InputMsg inMsg;
 static uint32_t lastFinishTime = 0;
+
+static int32_t 	btnUpTimer 	= -1;
+static uint8_t 	btnDown 		= 0;
+static uint32_t	startTime		= 50;
 
 void Joonekas_SysTick(void)
 {
@@ -17,6 +23,30 @@ void Joonekas_SysTick(void)
 	uint16_t 				txPacketLen;	
 	LineSenseOut		lineSense;
 	Controller1Out 	controllerOut;
+	
+	/**
+		* START BUTTON
+		*/
+	if(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_2))
+	{
+		if(btnDown)
+		{
+			btnUpTimer = 0;
+		}
+		else if(btnUpTimer > 0 // Falling edge has been detected
+			&& btnUpTimer == startTime)
+		{
+			inMsg.cmdType = Run;
+		}
+		else if(btnUpTimer >= 0)
+		{
+			btnUpTimer++;
+		}
+	}
+	btnDown = GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_2);
+	/**
+		*/
+
 		
 	/**
 		* Good reflection gives ADC value ~16, bad reflection 40-60.
